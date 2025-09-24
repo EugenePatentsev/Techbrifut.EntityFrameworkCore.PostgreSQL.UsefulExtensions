@@ -1,5 +1,7 @@
 # EntityFrameworkCore: PostgreSQL Useful Extensions
 
+[![NuGet Version](https://img.shields.io/nuget/v/Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions?style=flat&logo=nuget)](https://www.nuget.org/packages/Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions)
+
 ## Features
 
 - **Case-insensitive string matching for PostgreSQL**:
