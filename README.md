@@ -13,6 +13,12 @@
 
 ## Setup
 
+Install the NuGet package:
+
+```sh
+dotnet add package Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions
+```
+
 Register the useful extensions in your `DbContext` configuration:
 
 ```csharp
@@ -62,7 +68,8 @@ var usersContaining = await db.Users.AsNoTracking()
 | ILikeStartsWith(col, v) | col ILIKE @p ESCAPE '\\'               | escaped(v) + "%"              |
 | ILikeEndsWith(col, v)   | col ILIKE @p ESCAPE '\\'               | "%" + escaped(v)              |
 | ILikeContains(col, v)   | col ILIKE @p ESCAPE '\\'               | "%" + escaped(v) + "%"        |
-- Escaping: backslash (\\) is used as the escape character; existing \\, %, _ are escaped.
+
+Escaping: backslash (\\) is used as the escape character; existing \\, %, _ are escaped.
 
 ### Case-insensitive equality
 
