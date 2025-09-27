@@ -41,9 +41,9 @@ services.AddDbContext<AppDbContext>(options => options
 ### Case-insensitive string matching
 
 ```csharp
-// Find users whose name matches pattern, case-insensitively
+// Find users whose full name matches pattern, case-insensitively
 var users = await db.Users.AsNoTracking()
-    .Where(user => user.FirstName.ILike("%john%"))
+    .Where(user => user.FullName.ILike("%john%"))
     .ToListAsync();
 ```
 

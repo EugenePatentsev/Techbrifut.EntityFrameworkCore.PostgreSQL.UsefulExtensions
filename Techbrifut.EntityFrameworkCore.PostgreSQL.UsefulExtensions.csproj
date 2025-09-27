@@ -8,7 +8,7 @@
         <NoWarn>$(NoWarn);1591</NoWarn>
         <LangVersion>12</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>0.1.0</Version>
+        <Version>0.1.1</Version>
         <Title>EntityFrameworkCore: PostgreSQL Useful Extensions</Title>
         <Authors>Techbrifut</Authors>
         <Description>A set of Entity Framework Core extensions for PostgreSQL: adds case-insensitive string matching (ILike, EqualsLowerCase), dynamic OR query composition (OrWhere), and seamless LINQ-to-SQL translation for efficient, expressive queries.</Description>
@@ -17,7 +17,7 @@
         <RepositoryType>git</RepositoryType>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Entity;Framework;Core;entity-framework-core;EF;EntityFramework;EntityFrameworkCore;EFCore</PackageTags>
+        <PackageTags>Entity;Framework;Core;entity-framework-core;EF;EntityFramework;EntityFrameworkCore;EFCore;postgresql;posgres</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
