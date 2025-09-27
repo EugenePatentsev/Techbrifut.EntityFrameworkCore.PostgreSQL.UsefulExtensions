@@ -66,10 +66,10 @@ internal class ILikeTranslator : IMethodCallTranslator
             throw new NotSupportedException("Only string values are supported");
         }
 
-        return _sqlFactory.ILike(sourceArg, patternExpression, _sqlFactory.Constant("\\"));
+        return _sqlFactory.ILike(sourceArg, patternExpression, _sqlFactory.Constant(@"\"));
     }
 
-    private SqlConstantExpression CreatePatternExpression(MethodInfo method, string value)
+    private SqlExpression CreatePatternExpression(MethodInfo method, string value)
     {
         string escapedValue = EscapeLikePattern(value);
 
