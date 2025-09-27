@@ -44,7 +44,7 @@ internal class ILikeTranslator : IMethodCallTranslator
     {
         if (method == ILikeMethod)
         {
-            return _sqlFactory.ILike(arguments[0], arguments[1], _sqlFactory.Constant("%"));
+            return _sqlFactory.ILike(arguments[0], arguments[1], _sqlFactory.Constant(@"\"));
         }
 
         if (method != ILikeStartsWithMethod && method != ILikeEndsWithMethod && method != ILikeContainsMethod)
