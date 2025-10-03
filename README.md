@@ -21,11 +21,11 @@ expressive queries.
 
 ## Requirements
 
-- .NET 9.0+
-- Entity Framework Core 9.x+
-- Npgsql.EntityFrameworkCore.PostgreSQL 9.x+
+- .NET 10.0
+- Entity Framework Core 10.x
+- Npgsql.EntityFrameworkCore.PostgreSQL 10.x
 
-> **Note:** For .NET 8, use package version 8.x.
+> **Note:** For .NET 8 and .NET 9 support, use package versions v8.x and v9.x respectively.
 
 ## Installation
 

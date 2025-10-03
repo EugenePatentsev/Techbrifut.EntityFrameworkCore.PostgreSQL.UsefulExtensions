@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);1591</NoWarn>
-        <LangVersion>13</LangVersion>
+        <LangVersion>14</LangVersion>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>9.0.0-beta.1</Version>
+        <Version>10.0.0-beta.1</Version>
         <Title>EntityFrameworkCore: PostgreSQL Useful Extensions</Title>
         <Authors>Techbrifut</Authors>
         <Description>Entity Framework Core extensions for PostgreSQL: case-insensitive string matching (ILike, EqualsLowerCase), dynamic OR query composition (OrWhere), conditional filtering (WhereIf), and seamless LINQ-to-SQL translation for efficient, expressive queries.</Description>
@@ -21,7 +21,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0-rc.1"/>
     </ItemGroup>
 
     <ItemGroup>

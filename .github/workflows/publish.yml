@@ -1,13 +1,13 @@
-﻿name: Publish NuGet Package (.NET 9)
+﻿name: Publish NuGet Package (.NET 10)
 
 "on":
   push:
     tags:
-      - "v9.*"
+      - "v10.*"
 
 jobs:
   publish:
-    name: Publish NuGet Package (.NET 9)
+    name: Publish NuGet Package (.NET 10)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -19,7 +19,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "9.0.x"
+          dotnet-version: "10.0.x"
 
       - name: Restore
         run: dotnet restore
