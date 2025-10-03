@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);1591</NoWarn>
+        <LangVersion>12</LangVersion>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Version>8.0.0-beta.1</Version>
+        <Title>EntityFrameworkCore: PostgreSQL Useful Extensions</Title>
+        <Authors>Techbrifut</Authors>
+        <Description>Entity Framework Core extensions for PostgreSQL: case-insensitive string matching (ILike, EqualsLowerCase), dynamic OR query composition (OrWhere), conditional filtering (WhereIf), and seamless LINQ-to-SQL translation for efficient, expressive queries.</Description>
+        <PackageProjectUrl>https://github.com/EugenePatentsev/Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/EugenePatentsev/Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>Entity;Framework;Core;entity-framework-core;EF;EntityFramework;EntityFrameworkCore;EFCore;postgresql;postgres</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="[8.0.0, 9.0.0)"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../LICENSE" Pack="true" PackagePath=""/>
+        <None Include="../README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
+</Project>

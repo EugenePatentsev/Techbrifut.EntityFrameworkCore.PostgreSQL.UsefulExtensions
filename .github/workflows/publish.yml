@@ -1,0 +1,34 @@
+﻿name: Publish NuGet Package (.NET 8)
+
+"on":
+  push:
+    tags:
+      - "v8.*"
+
+jobs:
+  publish:
+    name: Publish NuGet Package (.NET 8)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release
+
+      - name: Pack (version from tag)
+        run: dotnet pack -c Release -o ./artifacts --no-build
+
+      - name: Publish
+        run: dotnet nuget push "./artifacts/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate --source https://api.nuget.org/v3/index.json

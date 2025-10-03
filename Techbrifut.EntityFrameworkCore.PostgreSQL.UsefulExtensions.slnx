@@ -1,0 +1,4 @@
+﻿<Solution>
+  <Project Path="ExampleApp\ExampleApp.csproj" Type="Classic C#" />
+  <Project Path="Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions\Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions.csproj" Type="Classic C#" />
+</Solution>
