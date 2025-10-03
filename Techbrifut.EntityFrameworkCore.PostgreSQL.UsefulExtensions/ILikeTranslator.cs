@@ -67,7 +67,7 @@ internal class ILikeTranslator : IMethodCallTranslator
         return _sqlFactory.ILike(sourceArg, patternExpression, _sqlFactory.Constant(@"\"));
     }
 
-    private SqlBinaryExpression CreatePatternExpression(MethodInfo method, SqlExpression parameter)
+    private SqlExpression CreatePatternExpression(MethodInfo method, SqlExpression parameter)
     {
         var escapedParameter = EscapeParameterForLike(parameter);
 
@@ -92,7 +92,7 @@ internal class ILikeTranslator : IMethodCallTranslator
         throw new NotSupportedException("Only ILikeStartsWith, ILikeEndsWith, and ILikeContains methods are supported");
     }
 
-    private SqlFunctionExpression EscapeParameterForLike(SqlExpression parameter)
+    private SqlExpression EscapeParameterForLike(SqlExpression parameter)
     {
         var escaped = _sqlFactory.Function(
             "REPLACE",

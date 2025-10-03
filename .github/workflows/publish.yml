@@ -1,13 +1,13 @@
-﻿name: Publish NuGet Package (.NET 8)
+﻿name: Publish NuGet Package (.NET 9)
 
 "on":
   push:
     tags:
-      - "v8.*"
+      - "v9.*"
 
 jobs:
   publish:
-    name: Publish NuGet Package (.NET 8)
+    name: Publish NuGet Package (.NET 9)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -19,7 +19,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "8.0.x"
+          dotnet-version: "9.0.x"
 
       - name: Restore
         run: dotnet restore
