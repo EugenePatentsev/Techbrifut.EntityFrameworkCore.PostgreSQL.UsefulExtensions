@@ -207,6 +207,41 @@ WHERE lower(u."LastName") = lower('White') OR lower(u."FirstName") = lower('Alic
 > - The method works by combining expression trees at the LINQ level, ensuring efficient SQL generation.
 > - Use `OrWhereIf` variant to conditionally add OR clauses, keeping your query logic clean and composable.
 
+## And() with OrWhere groups
+
+Use And() to join two OrWhere groups with the logical AND operator. It closes the current OR group and starts a new one
+that will be AND-ed with the previous group. The regular Where() cannot be used after And().
+
+Example:
+
+```csharp
+var users = await db.Users.AsNoTracking()
+    .OrWhere(user => user.FirstName.EqualsLowerCase("Alice"))
+    .OrWhere(user => user.FirstName.EqualsLowerCase("Bob"))
+    // (lower(u."FirstName") = lower('Alice') OR lower(u."FirstName") = lower('Bob'))
+    .And() // start a new OR-group
+    .OrWhere(user => user.LastName.EqualsLowerCase("Smith"))
+    .OrWhere(user => user.LastName.EqualsLowerCase("Taylor"))
+    // (lower(u."LastName") = lower('Smith') OR lower(u."LastName") = lower('Taylor'))
+    .ToListAsync();
+```
+
+Conceptually generated SQL
+
+```sql
+WHERE
+  (lower(u."FirstName") = lower('Alice') OR lower(u."FirstName") = lower('Bob'))
+  AND
+  (lower(u."LastName") = lower('Smith') OR lower(u."LastName") = lower('Taylor'))
+```
+
+Notes:
+
+- Use And() only between OrWhere chains to start a new OR-group.
+- Do not call Where() immediately after And(); continue with OrWhere to build the next group.
+- AndIf(condition) conditionally applies And(); if condition is false, the chain continues without introducing a new AND
+  group.
+
 # WhereIf
 
 Conditionally applies filters to queries only when specified conditions are met, keeping your query logic clean and
