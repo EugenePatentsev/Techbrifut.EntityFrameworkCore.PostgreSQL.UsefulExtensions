@@ -40,6 +40,16 @@ public static class OrWhereExtension
         return source.Provider.CreateQuery<TSource>(newWhereCall);
     }
 
+    public static IQueryable<TSource> And<TSource>(this IQueryable<TSource> source)
+    {
+        return source.Where(_ => false);
+    }
+
+    public static IQueryable<TSource> AndIf<TSource>(this IQueryable<TSource> source, bool condition)
+    {
+        return condition ? source.And() : source;
+    }
+
     private static bool IsQueryableWhereCall(MethodCallExpression call)
     {
         return call.Method.DeclaringType == typeof(Queryable) && call.Method.Name == nameof(Queryable.Where);

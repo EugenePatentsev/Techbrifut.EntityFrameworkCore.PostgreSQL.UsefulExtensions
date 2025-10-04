@@ -16,6 +16,7 @@ public static class Program
         await UseILikeContainsAsync();
         await UseWhereIfAsync();
         await UseOrWhereIfAsync();
+        await UseAndAsync();
     }
 
     private static async Task RecreateDatabase()
@@ -196,6 +197,31 @@ public static class Program
             .ToListAsync();
 
         Console.WriteLine($"{filter} [{specialFilter}]");
+
+        foreach (var user in users)
+        {
+            Console.WriteLine(user.FullName);
+        }
+
+        Console.WriteLine();
+    }
+
+    private static async Task UseAndAsync()
+    {
+        await using var db = AppDbContext.Create();
+
+        var users = await db.Users.AsNoTracking()
+            .OrWhere(user => user.FirstName.EqualsLowerCase("Alice"))
+            .OrWhere(user => user.FirstName.EqualsLowerCase("Bob"))
+            // (lower(u."FirstName") = lower('Alice') OR lower(u."FirstName") = lower('Bob'))
+            .And()
+            // ... AND ...
+            .OrWhere(user => user.LastName.EqualsLowerCase("Smith"))
+            .OrWhere(user => user.LastName.EqualsLowerCase("Taylor"))
+            // (lower(u."LastName") = lower('Smith') OR lower(u."LastName") = lower('Taylor'))
+            .ToListAsync();
+
+        Console.WriteLine("Users with first name 'Alice' or 'Bob' and last name 'Smith' or 'Taylor':");
 
         foreach (var user in users)
         {
