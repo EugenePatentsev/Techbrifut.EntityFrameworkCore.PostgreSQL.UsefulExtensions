@@ -178,12 +178,40 @@ Generated SQL (conceptually)
 WHERE lower(u."FirstName") = lower('Alice') OR lower(u."LastName") = lower('Smith')
 ```
 
-### With WhereIf for Dynamic Queries
+### Grouping Filters with BeginWhereGroup and EndWhereGroup
 
-Combine `OrWhere` with `WhereIf` to build flexible, dynamic queries:
+When building dynamic queries with conditional filters, you often need to group multiple conditions together and combine
+them with other filters using OR logic. The `BeginWhereGroup()` and `EndWhereGroup()` methods allow you to create
+parenthesized groups of AND conditions that can be combined with OR logic.
+
+#### Basic Grouping
+
+Use `BeginWhereGroup()` to start a group and `EndWhereGroup()` to close it. All `Where` or `WhereIf` calls between these
+methods are combined with AND and wrapped in parentheses:
 
 ```csharp
-var filter = new Filter(FirstName: string.Empty, LastName: "White");
+var filter = new Filter(FirstName: "Quinn", LastName: "White");
+
+var users = await db.Users.AsNoTracking()
+    .BeginWhereGroup()
+    .WhereIfIsNotNullOrEmpty(filter.FirstName, user => user.FirstName.EqualsLowerCase(filter.FirstName!))
+    .WhereIfIsNotNullOrEmpty(filter.LastName, user => user.LastName.EqualsLowerCase(filter.LastName!))
+    .EndWhereGroup()
+    .ToListAsync();
+```
+
+Generated SQL (conceptually)
+
+```sql
+WHERE (lower(u."FirstName") = lower('Quinn') AND lower(u."LastName") = lower('White'))
+```
+
+#### Combining Groups with OR Logic
+
+The real power of grouping comes when combining groups with `OrWhere` or `OrWhereIf`:
+
+```csharp
+var filter = new Filter(FirstName: "Quinn", LastName: "White");
 
 var specialFilter = new
 {
@@ -191,8 +219,10 @@ var specialFilter = new
 };
 
 var users = await db.Users.AsNoTracking()
+    .BeginWhereGroup()
     .WhereIfIsNotNullOrEmpty(filter.FirstName, user => user.FirstName.EqualsLowerCase(filter.FirstName!))
     .WhereIfIsNotNullOrEmpty(filter.LastName, user => user.LastName.EqualsLowerCase(filter.LastName!))
+    .EndWhereGroup()
     .OrWhereIf(specialFilter.IncludeAlice, user => user.FirstName.EqualsLowerCase("Alice"))
     .ToListAsync();
 ```
@@ -200,12 +230,36 @@ var users = await db.Users.AsNoTracking()
 Generated SQL (conceptually)
 
 ```sql
-WHERE lower(u."LastName") = lower('White') OR lower(u."FirstName") = lower('Alice')
+WHERE (lower(u."FirstName") = lower('Quinn') AND lower(u."LastName") = lower('White'))
+   OR lower(u."FirstName") = lower('Alice')
 ```
 
-> - `OrWhere` must be called after a `Where` clause. If no previous `Where` exists, it behaves like a regular `Where`.
-> - The method works by combining expression trees at the LINQ level, ensuring efficient SQL generation.
-> - Use `OrWhereIf` variant to conditionally add OR clauses, keeping your query logic clean and composable.
+This creates a query that returns users matching both first and last name from the filter, OR users named Alice.
+
+#### Conditional Grouping
+
+Use `BeginWhereGroupIf()` and `EndWhereGroupIf()` to conditionally apply grouping based on a condition:
+
+```csharp
+bool applyComplexFilter = true;
+var filter = new Filter(FirstName: "Quinn", LastName: "White");
+
+var users = await db.Users.AsNoTracking()
+    .BeginWhereGroupIf(applyComplexFilter)
+    .WhereIfIsNotNullOrEmpty(filter.FirstName, user => user.FirstName.EqualsLowerCase(filter.FirstName!))
+    .WhereIfIsNotNullOrEmpty(filter.LastName, user => user.LastName.EqualsLowerCase(filter.LastName!))
+    .EndWhereGroupIf(applyComplexFilter)
+    .ToListAsync();
+```
+
+If `applyComplexFilter` is `false`, the conditions are applied without grouping parentheses.
+
+> - Always pair `BeginWhereGroup()` with `EndWhereGroup()`. Calling `EndWhereGroup()` without a matching
+    `BeginWhereGroup()` will throw an `InvalidOperationException`.
+> - Groups are particularly useful when building complex dynamic queries with multiple optional filter sets that need to
+    be OR-ed together.
+> - Empty groups (where all conditional filters are skipped) are automatically removed from the query.
+> - Use `BeginWhereGroupIf()` and `EndWhereGroupIf()` with the same condition value to ensure proper pairing.
 
 ## And() with OrWhere groups
 

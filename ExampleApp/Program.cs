@@ -183,7 +183,7 @@ public static class Program
     {
         await using var db = AppDbContext.Create();
 
-        var filter = new Filter(FirstName: string.Empty, LastName: "White");
+        var filter = new Filter(FirstName: "Quinn", LastName: "White");
 
         var specialFilter = new
         {
@@ -191,9 +191,13 @@ public static class Program
         };
 
         var users = await db.Users.AsNoTracking()
+            .BeginWhereGroup()
             .WhereIfIsNotNullOrEmpty(filter.FirstName, user => user.FirstName.EqualsLowerCase(filter.FirstName!))
             .WhereIfIsNotNullOrEmpty(filter.LastName, user => user.LastName.EqualsLowerCase(filter.LastName!))
+            .EndWhereGroup()
+            // (lower(u."FirstName") = lower(@filter_FirstName) AND lower(u."LastName") = lower(@filter_LastName))
             .OrWhereIf(specialFilter.IncludeAlice, user => user.FirstName.EqualsLowerCase("Alice"))
+            // ... OR lower(u."FirstName") = lower('Alice')
             .ToListAsync();
 
         Console.WriteLine($"{filter} [{specialFilter}]");
