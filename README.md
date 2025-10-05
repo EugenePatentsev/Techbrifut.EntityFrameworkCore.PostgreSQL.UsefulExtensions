@@ -2,6 +2,7 @@
 
 ![GitHub License](https://img.shields.io/github/license/EugenePatentsev/Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions)
 [![NuGet Version](https://img.shields.io/nuget/v/Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions?style=flat&logo=nuget)](https://www.nuget.org/packages/Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions)
+![NuGet Version](https://img.shields.io/nuget/vpre/Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions?logo=nuget)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions?logo=nuget&color=blue)](https://www.nuget.org/packages/Techbrifut.EntityFrameworkCore.PostgreSQL.UsefulExtensions)
 
 Entity Framework Core extensions for PostgreSQL: case-insensitive string matching (ILike, EqualsLowerCase), dynamic OR
